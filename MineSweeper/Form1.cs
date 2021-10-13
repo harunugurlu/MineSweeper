@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -74,14 +74,14 @@ namespace MineSweeper
                 }
             }
             bool abc = arrInt.GroupBy(x => x).Any(g => g.Count() > 1);
-            List<string> array = new List<string>();
-            foreach (var item in arrInt)
-            {
-                array.Add(item.ToString());
-            }
-            string yeterUlan = array[0] + " " + array[1] + " " + array[2] + " " + array[3] + " " + array[4] + " " + array[5] + " " + array[6] + " "
-                + array[7] + " " + array[8] + " " + array[9] + " " + array[10] + " " + array[11] + " " + array[12] + " " + array[13] + " " + array[14];
-            MessageBox.Show(yeterUlan);
+            //List<string> array = new List<string>();
+            //foreach (var item in arrInt)
+            //{
+            //    array.Add(item.ToString());
+            //}
+            //string yeterUlan = array[0] + " " + array[1] + " " + array[2] + " " + array[3] + " " + array[4] + " " + array[5] + " " + array[6] + " "
+            //    + array[7] + " " + array[8] + " " + array[9] + " " + array[10] + " " + array[11] + " " + array[12] + " " + array[13] + " " + array[14];
+            //MessageBox.Show(yeterUlan);
             for (int i = 0; i < arrInt.Length; i++)
             {
                 btnIndex.Add(flowMain.Controls.OfType<Button>().ElementAt(arrInt[i]));
@@ -97,14 +97,16 @@ namespace MineSweeper
             if (btnIndex.Contains(GetButtonControl(index)))
             {
                 GetButtonControl(index).BackColor = Color.Red;
+                GetButtonControl(index).Text = "*";
                 for (int i = 0; i < btnIndex.Count; i++)
                 {
-                    GetButtonControl(btnIndex.IndexOf(btnIndex[i])).Text = "*";
+                    btnIndex[i].Text = "*";
                 }
                 MessageBox.Show("Game Over :(");
                 Form1.ActiveForm.Close();
             }
             #endregion
+            
 
             #region 0th button
             if (index == 0)
@@ -157,6 +159,63 @@ namespace MineSweeper
             }
             #endregion
 
+            #region 1th button
+            if (index == 1)
+            {
+                bool mineCheck1 = btnIndex.Contains(GetButtonControl(index - 1));
+                bool mineCheck2 = btnIndex.Contains(GetButtonControl(index + 1));
+                bool mineCheck3 = btnIndex.Contains(GetButtonControl(index + 9));
+                bool mineCheck4 = btnIndex.Contains(GetButtonControl(index + 10));
+                bool mineCheck5 = btnIndex.Contains(GetButtonControl(index + 11));
+
+                //F-F-F   
+                if ((!mineCheck1 && !mineCheck2) && !mineCheck3)
+                {
+                    GetButtonControl(index).Text = "0";
+                }
+                //F-F-T
+                else if ((!mineCheck1 && !mineCheck2) && mineCheck3)
+                {
+                    GetButtonControl(index).Text = "1";
+                }
+                //F-T-T
+                else if ((!mineCheck1 && mineCheck2) && mineCheck3)
+                {
+                    GetButtonControl(index).Text = "2";
+                }
+                //F-T-F
+                else if ((!mineCheck1 && mineCheck2) && !mineCheck3)
+                {
+                    GetButtonControl(index).Text = "1";
+                }
+                //T-F-F
+                else if ((mineCheck1 && !mineCheck2) && !mineCheck3)
+                {
+                    GetButtonControl(index).Text = "1";
+                }
+                //T-T-F
+                else if ((mineCheck1 && mineCheck2) && !mineCheck3)
+                {
+                    GetButtonControl(index).Text = "2";
+                }
+                //T-T-T
+                else if ((mineCheck1 && mineCheck2) && mineCheck3)
+                {
+                    GetButtonControl(index).Text = "3";
+                }
+                //T-F-T
+                else if ((mineCheck1 && !mineCheck2) && mineCheck3)
+                {
+                    GetButtonControl(index).Text = "2";
+                }
+
+            }
+            #endregion
+            if(index == 11)
+            {
+                CheckUp(index);
+            }
+
         }
         private Button GetButtonControl(int index)
         {
@@ -177,7 +236,39 @@ namespace MineSweeper
         {
 
         }
-        private void CheckZero(int index)
+        private void CheckUp(int index)
+        {
+            bool mineCheck = btnIndex.Contains(GetButtonControl(index-10));
+            if (mineCheck)
+            {
+
+            }
+        }
+        private void CheckDown(int index)
+        {
+
+        }
+        private void CheckLeft(int index)
+        {
+
+        }
+        private void CheckRight(int inde)
+        {
+
+        }
+        private void CheckTopLeft(int index)
+        {
+
+        }
+        private void CheckTopRight(int index)
+        {
+
+        }
+        private void CheckBottomLeft(int index)
+        {
+
+        }
+        private void CheckBottomRight(int index)
         {
 
         }
