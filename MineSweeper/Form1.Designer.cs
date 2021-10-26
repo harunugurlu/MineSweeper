@@ -31,11 +31,12 @@ namespace MineSweeper
         {
             this.flowMain = new System.Windows.Forms.FlowLayoutPanel();
             this.lblTitle = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // flowMain
             // 
-            this.flowMain.BackColor = System.Drawing.Color.Lime;
+            this.flowMain.BackColor = System.Drawing.Color.DarkOrange;
             this.flowMain.Location = new System.Drawing.Point(190, 74);
             this.flowMain.Name = "flowMain";
             this.flowMain.Size = new System.Drawing.Size(401, 374);
@@ -54,12 +55,22 @@ namespace MineSweeper
             this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblTitle.Click += new System.EventHandler(this.label1_Click);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(654, 102);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 3;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Lime;
+            this.BackColor = System.Drawing.Color.DarkOrange;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.lblTitle);
             this.Controls.Add(this.flowMain);
             this.Name = "Form1";
@@ -73,6 +84,7 @@ namespace MineSweeper
 
         private System.Windows.Forms.FlowLayoutPanel flowMain;
         private System.Windows.Forms.Label lblTitle;
+        private System.Windows.Forms.Button button1;
     }
 }
 

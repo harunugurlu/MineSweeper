@@ -74,14 +74,6 @@ namespace MineSweeper
                 }
             }
             bool abc = arrInt.GroupBy(x => x).Any(g => g.Count() > 1);
-            //List<string> array = new List<string>();
-            //foreach (var item in arrInt)
-            //{
-            //    array.Add(item.ToString());
-            //}
-            //string yeterUlan = array[0] + " " + array[1] + " " + array[2] + " " + array[3] + " " + array[4] + " " + array[5] + " " + array[6] + " "
-            //    + array[7] + " " + array[8] + " " + array[9] + " " + array[10] + " " + array[11] + " " + array[12] + " " + array[13] + " " + array[14];
-            //MessageBox.Show(yeterUlan);
             for (int i = 0; i < arrInt.Length; i++)
             {
                 btnIndex.Add(flowMain.Controls.OfType<Button>().ElementAt(arrInt[i]));
@@ -93,6 +85,7 @@ namespace MineSweeper
         {
             Button btn = sender as Button;
             var index = flowMain.Controls.IndexOf(btn);
+
             #region Fail
             if (btnIndex.Contains(GetButtonControl(index)))
             {
@@ -103,125 +96,333 @@ namespace MineSweeper
                     btnIndex[i].Text = "*";
                 }
                 MessageBox.Show("Game Over :(");
-                Form1.ActiveForm.Close();
+                var btnInactivate = flowMain.Controls.OfType<Button>().ToList();
+                for (int i = 0; i < 100; i++)
+                {
+                    btnInactivate[i].Enabled = false;
+                }
             }
             #endregion
+          
             
+            else {
+                int btnCheck = IsValid(index);
+                switch (btnCheck)
+                {
+                    case 0:
+                        ButtonZero(index);
+                        break;
 
-            #region 0th button
-            if (index == 0)
-            {
-               bool mineCheck1 = btnIndex.Contains(GetButtonControl(index + 1));
-               bool mineCheck2 = btnIndex.Contains(GetButtonControl(index + 10));
-               bool mineCheck3 = btnIndex.Contains(GetButtonControl(index + 11));
-               
-                //F-F-F   
-                if((!mineCheck1 && !mineCheck2) && !mineCheck3)
-                {
-                    GetButtonControl(index).Text = "0";
+                    case 1:
+                        ButtonNine(index);
+                        break;
+
+                    case 2:
+                        ButtonNinety(index);
+                        break;
+
+                    case 3:
+                        ButtonNinetyNine(index);
+                        break;
+
+                    case 4:
+                        ButtonModZero(index);
+                        break;
+
+                    case 5:
+                        ButtonModOne(index);
+                        break;
+
+                    case 6:
+                        ButtonTopRow(index);
+                        break;
+
+                    case 7:
+                        ButtonBottomRow(index);
+                        break;
+
+                    case 8:
+                        ButtonMid(index);
+                        break;
                 }
-                //F-F-T
-                else if((!mineCheck1 && !mineCheck2) && mineCheck3)
-                {
-                    GetButtonControl(index).Text = "1";
-                }
-                //F-T-T
-                else if((!mineCheck1 && mineCheck2) && mineCheck3)
-                {
-                    GetButtonControl(index).Text = "2";
-                }
-                //F-T-F
-                else if((!mineCheck1 && mineCheck2) && !mineCheck3)
-                {
-                    GetButtonControl(index).Text = "1";
-                }
-                //T-F-F
-                else if((mineCheck1 && !mineCheck2) && !mineCheck3)
-                {
-                    GetButtonControl(index).Text = "1";
-                }
-                //T-T-F
-                else if((mineCheck1 && mineCheck2) && !mineCheck3)
-                {
-                    GetButtonControl(index).Text = "2";
-                }
-                //T-T-T
-                else if((mineCheck1 && mineCheck2) && mineCheck3)
-                {
-                    GetButtonControl(index).Text = "3";
-                }
-                //T-F-T
-                else if((mineCheck1 && !mineCheck2) && mineCheck3)
-                {
-                    GetButtonControl(index).Text = "2";
-                }
-               
+                GetButtonControl(index).Text = count.ToString();
             }
-            #endregion
-
-            #region 1th button
-            if (index == 1)
-            {
-                bool mineCheck1 = btnIndex.Contains(GetButtonControl(index - 1));
-                bool mineCheck2 = btnIndex.Contains(GetButtonControl(index + 1));
-                bool mineCheck3 = btnIndex.Contains(GetButtonControl(index + 9));
-                bool mineCheck4 = btnIndex.Contains(GetButtonControl(index + 10));
-                bool mineCheck5 = btnIndex.Contains(GetButtonControl(index + 11));
-
-                //F-F-F   
-                if ((!mineCheck1 && !mineCheck2) && !mineCheck3)
-                {
-                    GetButtonControl(index).Text = "0";
-                }
-                //F-F-T
-                else if ((!mineCheck1 && !mineCheck2) && mineCheck3)
-                {
-                    GetButtonControl(index).Text = "1";
-                }
-                //F-T-T
-                else if ((!mineCheck1 && mineCheck2) && mineCheck3)
-                {
-                    GetButtonControl(index).Text = "2";
-                }
-                //F-T-F
-                else if ((!mineCheck1 && mineCheck2) && !mineCheck3)
-                {
-                    GetButtonControl(index).Text = "1";
-                }
-                //T-F-F
-                else if ((mineCheck1 && !mineCheck2) && !mineCheck3)
-                {
-                    GetButtonControl(index).Text = "1";
-                }
-                //T-T-F
-                else if ((mineCheck1 && mineCheck2) && !mineCheck3)
-                {
-                    GetButtonControl(index).Text = "2";
-                }
-                //T-T-T
-                else if ((mineCheck1 && mineCheck2) && mineCheck3)
-                {
-                    GetButtonControl(index).Text = "3";
-                }
-                //T-F-T
-                else if ((mineCheck1 && !mineCheck2) && mineCheck3)
-                {
-                    GetButtonControl(index).Text = "2";
-                }
-
-            }
-            #endregion
-            if(index == 11)
-            {
-                CheckUp(index);
-            }
-
+            count = 0;
         }
         private Button GetButtonControl(int index)
         {
             return flowMain.Controls.OfType<Button>().ElementAt(index);
         }
+        private int IsValid(int index)
+        {
+            if(index == 0) //Button zero
+            {
+                return 0;
+            }
+            if(index == 9)//Button nine
+            {
+                return 1;
+            }
+            if(index == 90)//Buttton ninety
+            {
+                return 2;
+            }
+            if(index == 99)//Button ninetynine
+            {
+                return 3;
+            }
+            if(index % 10 == 0)//Button mod zero
+            {
+                return 4;
+            }
+            if (index % 10 == 1)//Button mod one
+            {
+                return 5;
+            }
+            if (0 < index && index <10)//Button top row
+            {
+                return 6;
+            }
+            if (90 < index && index < 100) //Button bottom row
+            {
+                return 7;
+            }
 
+
+            return 8; //Button Mid
+        }
+        private void ButtonZero (int index)
+        {
+            if (btnIndex.Contains(GetButtonControl(index + 1)))
+            {
+                count++;
+            }
+            if (btnIndex.Contains(GetButtonControl(index + 10)))
+            {
+                count++;
+            }
+            if (btnIndex.Contains(GetButtonControl(index + 11)))
+            {
+                count++;
+            }
+        }
+        private void ButtonNine(int index)
+        {
+            if (btnIndex.Contains(GetButtonControl(index - 1)))
+            {
+                count++;
+            }
+            if (btnIndex.Contains(GetButtonControl(index + 9)))
+            {
+                count++;
+            }
+            if (btnIndex.Contains(GetButtonControl(index + 10)))
+            {
+                count++;
+            }
+        }
+        private void ButtonNinety(int index)
+        {
+            if (btnIndex.Contains(GetButtonControl(index - 10)))
+            {
+                count++;
+            }
+            if (btnIndex.Contains(GetButtonControl(index - 9)))
+            {
+                count++;
+            }
+            if (btnIndex.Contains(GetButtonControl(index + 1)))
+            {
+                count++;
+            }
+        }
+        private void ButtonNinetyNine(int index)
+        {
+            if (btnIndex.Contains(GetButtonControl(index - 11)))
+            {
+                count++;
+            }
+            if (btnIndex.Contains(GetButtonControl(index - 10)))
+            {
+                count++;
+            }
+            if (btnIndex.Contains(GetButtonControl(index - 1)))
+            {
+                count++;
+            }
+        }
+        private void ButtonModZero(int index)
+        {
+            if (btnIndex.Contains(GetButtonControl(index - 10)))
+            {
+                count++;
+            }
+            if (btnIndex.Contains(GetButtonControl(index - 9)))
+            {
+                count++;
+            }
+            if (btnIndex.Contains(GetButtonControl(index + 1)))
+            {
+                count++;
+            }
+            if (btnIndex.Contains(GetButtonControl(index + 10)))
+            {
+                count++;
+            }
+            if (btnIndex.Contains(GetButtonControl(index + 11)))
+            {
+                count++;
+            }
+        }
+        private void ButtonModOne(int index)
+        {
+            if (btnIndex.Contains(GetButtonControl(index - 11)))
+            {
+                count++;
+            }
+            if (btnIndex.Contains(GetButtonControl(index - 10)))
+            {
+                count++;
+            }
+            if (btnIndex.Contains(GetButtonControl(index - 1)))
+            {
+                count++;
+            }
+            if (btnIndex.Contains(GetButtonControl(index + 9)))
+            {
+                count++;
+            }
+            if (btnIndex.Contains(GetButtonControl(index + 10)))
+            {
+                count++;
+            }
+        }
+
+        private void ButtonTopRow(int index)
+        {
+            if (btnIndex.Contains(GetButtonControl(index - 1)))
+            {
+                count++;
+            }
+            if (btnIndex.Contains(GetButtonControl(index + 1)))
+            {
+                count++;
+            }
+            if (btnIndex.Contains(GetButtonControl(index + 9)))
+            {
+                count++;
+            }
+            if (btnIndex.Contains(GetButtonControl(index + 10)))
+            {
+                count++;
+            }
+            if (btnIndex.Contains(GetButtonControl(index + 11)))
+            {
+                count++;
+            }
+        }
+        
+        private void ButtonBottomRow(int index)
+        {
+            if (btnIndex.Contains(GetButtonControl(index - 11)))
+            {
+                count++;
+            }
+            if (btnIndex.Contains(GetButtonControl(index - 10)))
+            {
+                count++;
+            }
+            if (btnIndex.Contains(GetButtonControl(index - 9)))
+            {
+                count++;
+            }
+            if (btnIndex.Contains(GetButtonControl(index - 1)))
+            {
+                count++;
+            }
+            if (btnIndex.Contains(GetButtonControl(index + 1)))
+            {
+                count++;
+            }
+
+        }
+        private void ButtonMid(int index)
+        {
+            if (btnIndex.Contains(GetButtonControl(index - 11)))
+            {
+                count++;
+            }
+            if (btnIndex.Contains(GetButtonControl(index - 10)))
+            {
+                count++;
+            }
+            if (btnIndex.Contains(GetButtonControl(index - 9)))
+            {
+                count++;
+            }
+            if (btnIndex.Contains(GetButtonControl(index - 1)))
+            {
+                count++;
+            }
+            if (btnIndex.Contains(GetButtonControl(index + 1)))
+            {
+                count++;
+            }
+            if (btnIndex.Contains(GetButtonControl(index + 9)))
+            {
+                count++;
+            }
+            if (btnIndex.Contains(GetButtonControl(index + 10)))
+            {
+                count++;
+            }
+            if (btnIndex.Contains(GetButtonControl(index + 11)))
+            {
+                count++;
+            }
+        }
+        private void ButtonNoMine(int index)
+        {
+            int btnCheck = IsValid(index);
+            switch (btnCheck)
+            {
+                case 0:
+                    ButtonZero(index);
+                    break;
+
+                case 1:
+                    ButtonNine(index);
+                    break;
+
+                case 2:
+                    ButtonNinety(index);
+                    break;
+
+                case 3:
+                    ButtonNinetyNine(index);
+                    break;
+
+                case 4:
+                    ButtonModZero(index);
+                    break;
+
+                case 5:
+                    ButtonModOne(index);
+                    break;
+
+                case 6:
+                    ButtonTopRow(index);
+                    break;
+
+                case 7:
+                    ButtonBottomRow(index);
+                    break;
+
+                case 8:
+                    ButtonMid(index);
+                    break;
+            }
+        }
         private void richTextBox1_TextChanged(object sender, EventArgs e)
         {
            
@@ -236,41 +437,8 @@ namespace MineSweeper
         {
 
         }
-        private void CheckUp(int index)
-        {
-            bool mineCheck = btnIndex.Contains(GetButtonControl(index-10));
-            if (mineCheck)
-            {
+        
+        
 
-            }
-        }
-        private void CheckDown(int index)
-        {
-
-        }
-        private void CheckLeft(int index)
-        {
-
-        }
-        private void CheckRight(int inde)
-        {
-
-        }
-        private void CheckTopLeft(int index)
-        {
-
-        }
-        private void CheckTopRight(int index)
-        {
-
-        }
-        private void CheckBottomLeft(int index)
-        {
-
-        }
-        private void CheckBottomRight(int index)
-        {
-
-        }
     }
 }
